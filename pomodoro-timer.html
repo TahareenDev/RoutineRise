@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pomodoro Timer</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background-image: url("create the background1.png");
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      background-size: cover;
+      display: flex;  
+      justify-content: center;
+      align-items: center;
+      color: white;
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+      font-size: 50px;
+      user-select: none;
+
+    }
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .timer-container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 24px;
+      background: transparent;  /* slight translucent background so it’s readable over the image */
+      border-radius: 12px;
+    }
+    .mode-buttons {
+      margin-bottom: 24px;
+    }
+    .mode-buttons button {
+      background: transparent;
+      color: white;
+      border: 3px solid white;
+      border-radius: 20px;
+      padding: 12px 24px;
+      margin: 0 12px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+    .mode-buttons button.active {
+      background: white;
+      color: #333;
+    }
+    .time-display {
+      font-size: 150px;
+      margin-bottom: 32px;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      align-items: center;
+    }
+    .controls button {
+      background: white;
+      border: none;
+      color: #333;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      font-size: 32px;
+      cursor: pointer;
+    }
+    .controls .small-btn {
+      width: 64px;
+      height: 64px;
+      font-size: 24px;
+    }
+    .modal-settings {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0,0,0,0.6);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 10;
+    }
+    .modal-settings.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .settings-card {
+      background: #222;
+      padding: 32px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 450px;
+      color: white;
+    }
+    .settings-card h2 {
+      margin-top: 0;
+      font-size: 28px;
+    }
+    .settings-card .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .settings-card label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 18px;
+    }
+    .settings-card input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #555;
+      border-radius: 4px;
+      background: #333;
+      color: white;
+      font-size: 18px;
+    }
+    .settings-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+    }
+    .settings-actions button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    .settings-actions .btn-cancel {
+      background: #555;
+      color: white;
+    }
+    .settings-actions .btn-save {
+      background: #0a84ff;
+      color: white;
+    }
+     /* Fullscreen toggle button style */
+    .fullscreen-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid white;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      z-index: 1000;
+      transition: background 0.3s;
+    }
+
+    .fullscreen-btn:hover {
+      background: rgba(0, 0, 0, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+  <div class="timer-container">
+    <div class="mode-buttons">
+      <button data-mode="pomodoro" class="active">Pomodoro</button>
+      <button data-mode="short">Short Break</button>
+      <button data-mode="long">Long Break</button>
+    </div>
+    <div class="time-display" id="timeDisplay">25:00</div>
+    <div class="controls">
+      <button id="startPause">▶</button>
+      <button class="small-btn" id="resetBtn">⟲</button>
+      <button class="small-btn" id="settingsBtn">⚙</button>
+    </div>
+  </div>
+
+  <div class="modal-settings" id="settingsModal">
+    <div class="settings-card">
+      <h2>Timer Settings</h2>
+      <div class="form-group">
+        <label for="pomodoroMin">Pomodoro (minutes)</label>
+        <input type="number" id="pomodoroMin" min="1" />
+      </div>
+      <div class="form-group">
+        <label for="shortBreakMin">Short Break (minutes)</label>
+        <input type="number" id="shortBreakMin" min="1" />
+      </div>
+      <div class="form-group">
+        <label for="longBreakMin">Long Break (minutes)</label>
+        <input type="number" id="longBreakMin" min="1" />
+      </div>
+      <div class="settings-actions">
+        <button class="btn-cancel" id="cancelSettings">Cancel</button>
+        <button class="btn-save" id="saveSettings">Save</button>
+      </div>
+    </div>
+  </div>
+    <button class="fullscreen-btn" id="fsBtn">Fullscreen</button>
+  
+
+  <script>
+    const DEFAULT = {
+      pomodoro: 25 * 60,
+      short: 5 * 60,
+      long: 15 * 60
+    };
+
+    function loadDurations() {
+      const stored = localStorage.getItem('pomodoroSettings');
+      if (stored) {
+        try {
+          const obj = JSON.parse(stored);
+          return {
+            pomodoro: obj.pomodoro || DEFAULT.pomodoro,
+            short: obj.short || DEFAULT.short,
+            long: obj.long || DEFAULT.long
+          };
+        } catch (e) {
+          return { ...DEFAULT };
+        }
+      }
+      return { ...DEFAULT };
+    }
+
+    let durations = loadDurations();
+    let currentMode = 'pomodoro';
+    let remaining = durations[currentMode];
+    let timerInterval = null;
+    let isRunning = false;
+
+    const timeDisplay = document.getElementById('timeDisplay');
+    const modeButtons = document.querySelectorAll('.mode-buttons button');
+    const startPauseBtn = document.getElementById('startPause');
+    const resetBtn = document.getElementById('resetBtn');
+    const settingsBtn = document.getElementById('settingsBtn');
+
+    const settingsModal = document.getElementById('settingsModal');
+    const overlay = document.getElementById('overlay');
+    const pomodoroMin = document.getElementById('pomodoroMin');
+    const shortBreakMin = document.getElementById('shortBreakMin');
+    const longBreakMin = document.getElementById('longBreakMin');
+    const cancelSettings = document.getElementById('cancelSettings');
+    const saveSettings = document.getElementById('saveSettings');
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60).toString().padStart(2, '0');
+      const s = (sec % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function updateDisplay() {
+      timeDisplay.textContent = formatTime(remaining);
+    }
+
+    function switchMode(mode) {
+      currentMode = mode;
+      remaining = durations[mode];
+      updateDisplay();
+      modeButtons.forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+      stopTimer();
+    }
+
+    function startTimer() {
+      if (isRunning) return;
+      isRunning = true;
+      startPauseBtn.textContent = '❚❚';
+      timerInterval = setInterval(() => {
+        if (remaining > 0) {
+          remaining--;
+          updateDisplay();
+        } else {
+          stopTimer();
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = null;
+      isRunning = false;
+      startPauseBtn.textContent = '▶';
+    }
+
+    modeButtons.forEach(b => {
+      b.addEventListener('click', () => switchMode(b.dataset.mode));
+    });
+    startPauseBtn.addEventListener('click', () => {
+      if (isRunning) stopTimer();
+      else startTimer();
+    });
+    resetBtn.addEventListener('click', () => {
+      stopTimer();
+      remaining = durations[currentMode];
+      updateDisplay();
+    });
+
+    settingsBtn.addEventListener('click', openSettings);
+    cancelSettings.addEventListener('click', closeSettings);
+    overlay.addEventListener('click', closeSettings);
+
+    function openSettings() {
+      pomodoroMin.value = Math.floor(durations.pomodoro / 60);
+      shortBreakMin.value = Math.floor(durations.short / 60);
+      longBreakMin.value = Math.floor(durations.long / 60);
+      settingsModal.classList.add('show');
+      overlay.classList.add('show');
+    }
+    function closeSettings() {
+      settingsModal.classList.remove('show');
+      overlay.classList.remove('show');
+    }
+
+    saveSettings.addEventListener('click', () => {
+      const p = parseInt(pomodoroMin.value, 10);
+      const s = parseInt(shortBreakMin.value, 10);
+      const l = parseInt(longBreakMin.value, 10);
+      if (p > 0) durations.pomodoro = p * 60;
+      if (s > 0) durations.short = s * 60;
+      if (l > 0) durations.long = l * 60;
+      localStorage.setItem('pomodoroSettings', JSON.stringify(durations));
+      closeSettings();
+      remaining = durations[currentMode];
+      updateDisplay();
+    });
+
+    // initialize
+    switchMode('pomodoro');
+    updateDisplay();
+    // Fullscreen toggle logic
+    const fsBtn = document.getElementById("fsBtn");
+
+    fsBtn.addEventListener("click", () => {
+      // If not in fullscreen, request it
+      if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+        // request fullscreen on body or documentElement
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+          document.documentElement.msRequestFullscreen();
+        }
+        fsBtn.textContent = "Exit";
+      } else {
+        // exit
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+        fsBtn.textContent = "Fullscreen";
+      }
+    });
+
+    // Listen for fullscreen change so button text syncs correctly
+    document.addEventListener("fullscreenchange", () => {
+      if (document.fullscreenElement) {
+        fsBtn.textContent = "Exit";
+      } else {
+        fsBtn.textContent = "Fullscreen";
+      }
+    });
+    document.addEventListener("webkitfullscreenchange", () => {
+      if (document.webkitFullscreenElement) {
+        fsBtn.textContent = "Exit";
+      } else {
+        fsBtn.textContent = "Fullscreen";
+      }
+    });
+    document.addEventListener("msfullscreenchange", () => {
+      if (document.msFullscreenElement) {
+        fsBtn.textContent = "Exit";
+      } else {
+        fsBtn.textContent = "Fullscreen";
+      }
+    });
+  </script>
+</body>
+</html>

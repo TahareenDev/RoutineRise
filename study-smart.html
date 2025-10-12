@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Smart</title>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Arial', sans-serif;
+    }
+
+    body {
+        background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        padding: 50px 20px;
+        color: #333;
+    }
+    
+
+    h1 {
+        font-size: 3em;
+        margin-bottom: 40px;
+        color: #2802029d;
+        text-align: center;
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 100px;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 40px;
+
+    }
+    
+
+    .card {
+        perspective: 1200px;
+    }
+
+    .card-inner {
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+        height: 350px;
+        text-align: left;
+        transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), box-shadow 0.3s;
+        transform-style: preserve-3d;
+        cursor: pointer;
+    }
+
+    /* Hover effect to make cards "movable" */
+ .card:hover .card-inner {
+    transform: rotateY(180deg) scale(1.09) rotateX(4deg);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    transition: transform 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6), box-shadow 0.5s ease;
+}
+
+
+
+
+
+
+    .card-front, .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        padding: 20px;
+        font-size: 0.95em;
+        overflow-y: auto;
+    }
+
+    .card-front a {
+        color: inherit;
+        text-decoration: none;
+        font-size: 1.1em;
+        font-weight: bold;
+    }
+
+    .card-front a:hover {
+        text-decoration: underline;
+    }
+
+    /* Unique colors for each card */
+    .card.red .card-front { background-color: #FF6B6B; }
+    .card.green .card-front { background-color: #6BCB77; }
+    .card.blue .card-front { background-color: #4D96FF; }
+    .card.yellow .card-front { background-color: #FFD93D; color: #333; }
+    .card.orange .card-front { background-color: #FF7F50; }
+    .card.purple .card-front { background-color: #9B59B6; }
+    .card.teal .card-front { background-color: #1ABC9C; }
+
+    .card-back {
+        background-color: rgba(255, 255, 255, 0.95);
+        color: #333;
+        font-weight: normal;
+        transform: rotateY(180deg) rotateX(10deg);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        overflow-y: auto;
+    }
+
+    footer {
+        margin-top: 40px;
+        font-size: 1.2em;
+        color: black;
+        text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    }
+
+    @media (max-width: 992px) {
+        .card-container {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 2em;
+        }
+        .card-container {
+            grid-template-columns: 1fr;
+        }
+    }
+     /* Fullscreen toggle button style */
+    .fullscreen-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid white;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      z-index: 1000;
+      transition: background 0.3s;
+    }
+
+    .fullscreen-btn:hover {
+      background: rgba(0, 0, 0, 0.6);
+    }
+</style>
+</head>
+<body>
+<h1>Study Smart</h1>
+<div class="card-container">
+    <!-- Card 1 -->
+    <div class="card red" onclick="flipCard(this)">
+        <div class="card-inner">
+            <div class="card-front"><a href="#">Focus & Attention</a></div>
+            <div class="card-back">
+                Time-Blocking: Allocate specific hours for studying different subjects.<br><br>
+                Single-Tasking: Avoid multitasking; focus on one task at a time.<br><br>
+                Digital Detox: Turn off notifications and use apps that block distractions.<br><br>
+                Mindfulness/Meditation: 5–10 minutes of mindfulness improves concentration and reduces stress.
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card green" onclick="flipCard(this)">
+        <div class="card-inner">
+            <div class="card-front"><a href="#">Memory & Learning Efficiency</a></div>
+            <div class="card-back">
+                Spaced Repetition: Review material multiple times over increasing intervals (use apps like Anki or Quizlet).<br><br>
+                Active Recall: Practice recalling information from memory rather than just rereading notes.<br><br>
+                Visualization: Turn information into charts, diagrams, or mental images.<br><br>
+                Association: Link new information to something you already know.<br><br>
+                Chunking: Break complex information into smaller, manageable pieces.
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card blue" onclick="flipCard(this)">
+        <div class="card-inner">
+            <div class="card-front"><a href="#">Effective Study Techniques</a></div>
+            <div class="card-back">
+                Pomodoro or Ultradian Rhythm: Study 25–50 minutes, then take 5–10 minute breaks.<br><br>
+                Interleaving: Alternate between subjects or types of problems.<br><br>
+                Feynman Technique: Teach a concept to someone else or yourself in simple terms.<br><br>
+                Note-Making, Not Note-Taking: Summarize in your own words and highlight key points.
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="card yellow" onclick="flipCard(this)">
+        <div class="card-inner">
+            <div class="card-front"><a href="#">Motivation & Engagement</a></div>
+            <div class="card-back">
+                Gamification: Reward yourself for completing tasks (points, badges, streaks).<br><br>
+                Variety: Mix different subjects and activities to avoid monotony.<br><br>
+                Goal Setting: Daily, weekly, and monthly goals with visible progress tracking.<br><br>
+                Positive Reinforcement: Celebrate small wins to build momentum.
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="card orange" onclick="flipCard(this)">
+        <div class="card-inner">
+            <div class="card-front"><a href="#">Physical & Mental Health</a></div>
+            <div class="card-back">
+                Sleep: 7–9 hours for memory consolidation and brain recovery.<br><br>
+                Nutrition: Eat brain-boosting foods like nuts, berries, eggs, and fish.<br><br>
+                Hydration: Even mild dehydration can reduce focus.<br><br>
+                Exercise: Increases blood flow to the brain, improving memory and cognition.<br><br>
+                Breaks & Relaxation: Short walks, stretching, or breathing exercises during study breaks.
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="card purple" onclick="flipCard(this)">
+        <div class="card-inner">
+            <div class="card-front"><a href="#">Tech & Tools Integration</a></div>
+            <div class="card-back">
+                Productivity Apps: Notion, Todoist, Trello for planning tasks.<br><br>
+                Learning Apps: Khan Academy, Coursera, Duolingo, YouTube educational channels.<br><br>
+                Mind Mapping: Miro, MindMeister for organizing ideas visually.<br><br>
+                Flashcards: Spaced repetition apps to strengthen memory.<br><br>
+                AI Assistance: ChatGPT or AI tutors to explain concepts quickly.
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 7 -->
+    <div class="card teal" onclick="flipCard(this)">
+        <div class="card-inner">
+            <div class="card-front"><a href="#">Reflection & Review</a></div>
+            <div class="card-back">
+                Daily Review: Spend 5–10 minutes at the end of the day reviewing what you learned.<br><br>
+                Weekly Review: Evaluate progress, challenges, and adjust your study plan.<br><br>
+                Error Analysis: Understand mistakes in practice and exams to avoid repeating them.
+            </div>
+        </div>
+    </div>
+</div>
+  <button class="fullscreen-btn" id="fsBtn">Fullscreen</button>
+
+
+<footer>many more to load.....</footer>
+
+<script>
+    function flipCard(card) {
+        const inner = card.querySelector('.card-inner');
+        inner.style.transform = inner.style.transform === 'rotateY(180deg) rotateX(10deg)' 
+                                ? 'rotateY(0deg) rotateX(0deg)' 
+                                : 'rotateY(180deg) rotateX(10deg)';
+    }
+    // Fullscreen toggle logic
+    const fsBtn = document.getElementById("fsBtn");
+
+    fsBtn.addEventListener("click", () => {
+      // If not in fullscreen, request it
+      if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+        // request fullscreen on body or documentElement
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+          document.documentElement.msRequestFullscreen();
+        }
+        fsBtn.textContent = "Exit";
+      } else {
+        // exit
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+        fsBtn.textContent = "Fullscreen";
+      }
+    });
+
+    // Listen for fullscreen change so button text syncs correctly
+    document.addEventListener("fullscreenchange", () => {
+      if (document.fullscreenElement) {
+        fsBtn.textContent = "Exit";
+      } else {
+        fsBtn.textContent = "Fullscreen";
+      }
+    });
+    document.addEventListener("webkitfullscreenchange", () => {
+      if (document.webkitFullscreenElement) {
+        fsBtn.textContent = "Exit";
+      } else {
+        fsBtn.textContent = "Fullscreen";
+      }
+    });
+    document.addEventListener("msfullscreenchange", () => {
+      if (document.msFullscreenElement) {
+        fsBtn.textContent = "Exit";
+      } else {
+        fsBtn.textContent = "Fullscreen";
+      }
+    });
+</script>
+</body>
+</html>

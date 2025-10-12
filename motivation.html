@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motivational Videos</title>
+    <style>
+        html, body {
+            background: linear-gradient(black, #0c2e0a, black);
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        
+
+        .motivation {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* exactly 3 per row */
+            gap: 70px; /* space between videos */
+            justify-content: space-between; /* spread videos evenly */
+            opacity: 0;
+            animation: fadeIn 3s forwards;
+            margin-top: 90px;
+            margin-left: 68px;
+            margin-right: 68px;
+        }
+
+        /* Wrapper to keep 16:9 ratio */
+        .video-wrapper {
+            position: relative;
+            width: 100%; /* full width of grid column */
+            padding-top: 56.25%; /* 16:9 ratio */
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 3px solid rgb(64, 178, 7);
+            border-radius: 10px;
+            transition: transform 0.3s ease; /* smooth transition */
+
+        }
+        .video-wrapper iframe:hover {
+        transform: scale(1.10); /* zoom out effect */
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive layout */
+        @media (max-width: 1024px) {
+            .motivation {
+                grid-template-columns: repeat(2, 1fr); /* 2 per row on smaller screens */
+            }
+        }
+
+        @media (max-width: 600px) {
+            .motivation {
+                grid-template-columns: 1fr; /* 1 per row on mobile */
+            }
+        }
+        /* Fullscreen toggle button style */
+    .fullscreen-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid white;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      z-index: 1000;
+      transition: background 0.3s;
+    }
+
+    .fullscreen-btn:hover {
+      background: rgba(0, 0, 0, 0.6);
+    }
+   footer {
+    margin: 0; /* remove top margin if centering vertically */
+    font-size: 1.2em;
+    color: white;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    text-align: center;       /* center text horizontally */
+    display: flex;            /* use flexbox for easy centering */
+    justify-content: center;  /* horizontal centering */
+    align-items: center;      /* vertical centering */
+    height: 100px;            /* adjust height as needed */
+}
+
+    </style>
+</head>
+<body>
+    <div class="motivation">
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/eVFzbxmKNUw" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/1xOVTXz6HTg" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/MDjXpqmRdsE?si=8qWdz7MfCQgrrUPn" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/tbnzAVRZ9Xc" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/ej41evyikMo" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/XQFsva8fi9k" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/8jPQjjsBbIc" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/9aRIwxhghs4" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/fkOMupkw5D8" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/cfzLFXNchAs" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/BLBRRNwMZNE" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/gN07gbipMoY" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/4JRrAe-xz44" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/d9gwmyPMByM" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/U5HvuKEjH6g" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/Tuw8hxrFBH8" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/7zlUGps9kjg" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/mxURe-EUmAs?si=NnrHtiorNPLQcrW1" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/KzKoEogT5zc?si=Q_gj_JGTJ8Bk0SNT" allowfullscreen></iframe></div>
+        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/cWdrnvZ1S7Y?si=V7fj1mVoADKMOi6M" allowfullscreen></iframe></div>
+    </div>
+      <button class="fullscreen-btn" id="fsBtn">Fullscreen</button>
+      <footer>More videos to load.....</footer>
+    <script>
+        // Fullscreen toggle logic
+    const fsBtn = document.getElementById("fsBtn");
+
+    fsBtn.addEventListener("click", () => {
+      // If not in fullscreen, request it
+      if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+        // request fullscreen on body or documentElement
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+          document.documentElement.msRequestFullscreen();
+        }
+        fsBtn.textContent = "Exit";
+      } else {
+        // exit
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+        fsBtn.textContent = "Fullscreen";
+      }
+    });
+
+    // Listen for fullscreen change so button text syncs correctly
+    document.addEventListener("fullscreenchange", () => {
+      if (document.fullscreenElement) {
+        fsBtn.textContent = "Exit";
+      } else {
+        fsBtn.textContent = "Fullscreen";
+      }
+    });
+    document.addEventListener("webkitfullscreenchange", () => {
+      if (document.webkitFullscreenElement) {
+        fsBtn.textContent = "Exit";
+      } else {
+        fsBtn.textContent = "Fullscreen";
+      }
+    });
+    document.addEventListener("msfullscreenchange", () => {
+      if (document.msFullscreenElement) {
+        fsBtn.textContent = "Exit";
+      } else {
+        fsBtn.textContent = "Fullscreen";
+      }
+    });
+
+    </script>
+</body>
+</html>
