@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoutineRise Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #EEAECA;
+      background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+    }
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 30px 40px 10px 40px;
+      background: #EEAECA;
+      background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #38aa7c;
+    }
+    .profile-menu {
+      position: relative;
+    }
+    #profileBtn {
+      background: #eee;
+      border: none;
+      font-size: 1rem;
+      padding: 8px 22px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      background: #fff;
+      min-width: 160px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.15);
+      border-radius: 9px;
+      z-index: 1;
+    }
+    .dropdown a {
+      color: #333;
+      padding: 12px 25px;
+      text-decoration: none;
+      display: block;
+      transition: background .2s;
+    }
+    .dropdown a:hover { background: #eee; }
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
+    }
+    .box-row {
+      display: flex;
+      gap: 80px;
+      margin-bottom: 60px;
+      justify-content: center;
+    }
+    .box-row.single {
+      justify-content: center;
+    }
+    .box {
+    height: 220px;
+    width: 420px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 30px #ececec;
+    color: #fff;
+    font-size: 1.7rem;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .box:hover {
+    transform: scale(1.06) translateY(-6px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    
+    .box.active {
+    box-shadow: 0 18px 50px #84e2bf;
+    }
+
+    .box-blue    { background: linear-gradient(135deg, #4f7ebb, #384abd);}
+    .box-red     { background: linear-gradient(135deg, #c97c7c, #de9090);}
+    .box-green   { background: linear-gradient(135deg, #61b58e, #a4cf87);}
+    .box-purple  { background: linear-gradient(135deg, #9274b4, #b09dcf);}
+    .box-orange  { background: linear-gradient(135deg, #dfb276, #cd7e37);}
+    .box-pink    { background: linear-gradient(135deg, #ad7087, #da9dad);}
+    .box-teal    { background: linear-gradient(135deg, #3bb4ba, #5fc1e6);}
+   .view-more {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        font-size: 1rem;
+        color: #fff;
+        background: transparent;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+        text-decoration: none;
+        border: none;
+    }
+        .view-more:hover {
+        background: transparent;
+        text-decoration: underline;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.3);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: #fff;
+      margin: 15% auto;
+      padding: 28px 32px;
+      border-radius: 16px;
+      width: 340px;
+      color: #333;
+      position: relative;
+      box-shadow: 0 2px 20px #ccc;
+    }
+    .close {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+    a {
+    text-decoration: none;
+    color: inherit;
+ }
+ .logo-container h1 {
+  font-size: 80px;
+  font-weight: 500;
+  color: #088bb6;
+  margin-top: 0%;
+  margin-bottom: 0%;
+}
+
+.R {
+  color: #f15a71;   
+}
+
+  </style>
+</head>
+<body>
+    <div class="container">
+     <div class="logo-container">
+        <h1>
+            <span class="R">R</span>outine<span class="R">R</span>ise
+        </h1>
+    </div>
+   
+    </div>
+
+  <main>
+    <div class="box-row">
+      <a href="calendar.html" target="_blank" rel="noopener noreferrer">
+        <div class="box box-blue">
+          <h2>Calendar</h2>
+          <span class="view-more">View More</span>
+        </div>
+      </a>
+      <a href="to-do-list.html" target="_blank" rel="noopener noreferrer">
+        <div class="box box-red">
+          <h2>To-Do List</h2>
+          <span class="view-more">View More</span>
+        </div>
+      </a>
+    </div>
+    <div class="box-row">
+      <a href="study-smart.html" target="_blank" rel="noopener noreferrer">
+        <div class="box box-green">
+          <h2>Study Smart</h2>
+          <span class="view-more">View More</span>
+        </div>
+      </a>
+      <a href="time-table.html" target="_blank" rel="noopener noreferrer">
+        <div class="box box-purple">
+          <h2>Time Table</h2>
+          <span class="view-more">View More</span>
+        </div>
+      </a>
+    </div>
+    <div class="box-row">
+      <a href="daily-journal.html" target="_blank" rel="noopener noreferrer">
+        <div class="box box-orange">
+          <h2>Daily Journal</h2>
+          <span class="view-more">View More</span>
+        </div>
+      </a>
+      <a href="motivation.html" target="_blank" rel="noopener noreferrer">
+        <div class="box box-pink">
+          <h2>Motivation</h2>
+          <span class="view-more">View More</span>
+        </div>
+      </a>
+    </div>
+    <div class="box-row single">
+      <a href="pomodoro-timer.html" target="_blank" rel="noopener noreferrer">
+        <div class="box box-teal">
+          <h2>Pomodoro Timer</h2>
+          <span class="view-more">View More</span>
+        </div>
+      </a>
+    </div>
+  </main>
+    
+</body>
+</html>

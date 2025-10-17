@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to RoutineRise</title>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #FFB6C1, #6bd7fb);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  animation: fadeIn 3s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #FFB6C1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: zoomOut 2s forwards;
+}
+
+.splash-screen h1 {
+  font-size: 2rem;
+  font-family: 'Poppins', sans-serif;
+  color: #6f0372;
+}
+
+@keyframes zoomOut {
+  to {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.main-content {
+  display: none;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #FFB6C1, #6bd7fb);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  animation: fadeIn 3s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.logo-container h1 {
+  font-size: 100px;
+  font-weight: 700;
+  color: #088bb6;
+  margin-bottom: 150px;
+}
+
+.R {
+  color: #f15a71;
+}
+
+.tagline p {
+  font-size: 20px;
+  color: #003366;
+  margin-top: 20px;
+  font-weight: bold;
+  opacity: 0;
+  animation: fadeInTagline 2s forwards 2s;
+}
+
+@keyframes fadeInTagline {
+  to {
+    opacity: 1;
+  }
+}
+</style>
+</head>
+<body>
+  
+    <div class="logo-container">
+        <h1>
+            <span class="R">R</span>outine<span class="R">R</span>ise
+        </h1>
+    </div>
+    <div class="tagline">
+        <p>Your Journey to Productivity Starts Here!</p>
+    </div>
+    <script>
+      window.addEventListener('load', () => {
+  const splashScreen = document.querySelector('.splash-screen');
+  const mainContent = document.querySelector('.main-content');
+
+  setTimeout(() => {
+    splashScreen.style.display = 'none';
+    mainContent.style.display = 'flex';
+  }, 2000);
+
+  setTimeout(() => {
+    window.location.href = 'main.html'; 
+  }, 6000); 
+});
+
+    </script>
+</body>
+</html>
